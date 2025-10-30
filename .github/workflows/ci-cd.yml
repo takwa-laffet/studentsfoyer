@@ -35,8 +35,8 @@ jobs:
     # ----------------------
     # OWASP Dependency Check
     - name: Run OWASP Dependency-Check
-      uses: jeremylong/owasp-dependency-check-action@v2
-      with:
+    uses: dependency-check/Dependency-Check_Action@main
+    with:
         scan: './'
         format: 'HTML'
         out: 'reports/owasp'

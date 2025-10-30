@@ -35,11 +35,11 @@ jobs:
     # ----------------------
     # OWASP Dependency Check
     - name: Run OWASP Dependency-Check
-      uses: dependency-check/dependency-check-action@v2
+      uses: jeremylong/owasp-dependency-check-action@v2
       with:
-        project: demo
+        scan: './'
         format: 'HTML'
-        outputDirectory: 'reports/owasp'
+        out: 'reports/owasp'
 
     # ----------------------
     # Docker Build

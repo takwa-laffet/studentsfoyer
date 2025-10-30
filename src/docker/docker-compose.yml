@@ -32,9 +32,9 @@ services:
     container_name: spring_app
     restart: always
     ports:
-      - "8050:8050"
+      - "3306:3306"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/demo_db?useSSL=false&allowPublicKeyRetrieval=true
+      MYSQL_DATABASE: demo_db
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       SPRING_JPA_HIBERNATE_DDL_AUTO: update

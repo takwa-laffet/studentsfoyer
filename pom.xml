@@ -19,6 +19,12 @@
     </parent>
 
     <dependencies>
+		<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <scope>test</scope>
+</dependency>
+
         <!-- Web dependency for REST APIs -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

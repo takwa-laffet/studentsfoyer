@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student CRUD</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+    <h1 class="mb-4">Student CRUD</h1>
+
+    <!-- Add Student Form -->
+    <div class="mb-4">
+        <input type="text" id="name" placeholder="Name" class="form-control mb-2">
+        <input type="number" id="age" placeholder="Age" class="form-control mb-2">
+        <button onclick="addStudent()" class="btn btn-primary">Add Student</button>
+    </div>
+
+    <!-- Student List -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="studentTable">
+            <!-- Students will appear here -->
+        </tbody>
+    </table>
+
+    <!-- Bootstrap JS + Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const apiUrl = "http://localhost:8050/students";
+
+        // Fetch all students
+        function fetchStudents() {
+            axios.get(apiUrl)
+                .then(res => {
+                    const table = document.getElementById("studentTable");
+                    table.innerHTML = "";
+                    res.data.forEach(student => {
+                        table.innerHTML += `
+                            <tr>
+                                <td>${student.id}</td>
+                                <td><input type="text" value="${student.name}" id="name-${student.id}"></td>
+                                <td><input type="number" value="${student.age}" id="age-${student.id}"></td>
+                                <td>
+                                    <button class="btn btn-success btn-sm" onclick="updateStudent(${student.id})">Update</button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteStudent(${student.id})">Delete</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                });
+        }
+
+        // Add new student
+        function addStudent() {
+            const name = document.getElementById("name").value;
+            const age = document.getElementById("age").value;
+            axios.post(apiUrl, { name, age })
+                .then(() => {
+                    fetchStudents();
+                    document.getElementById("name").value = "";
+                    document.getElementById("age").value = "";
+                });
+        }
+
+        // Update student
+        function updateStudent(id) {
+            const name = document.getElementById(`name-${id}`).value;
+            const age = document.getElementById(`age-${id}`).value;
+            axios.put(`${apiUrl}/${id}`, { name, age })
+                .then(() => fetchStudents());
+        }
+
+        // Delete student
+        function deleteStudent(id) {
+            axios.delete(`${apiUrl}/${id}`)
+                .then(() => fetchStudents());
+        }
+
+        // Load students on page load
+        fetchStudents();
+    </script>
+</body>
+</html>
